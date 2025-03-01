@@ -49,13 +49,13 @@ instructions: |
 
 
 assistant_config:
-  assistant_id: asst_grD23jorrcF6RHVkJTJc2b3Z
+  assistant_id: asst_Jyy6ToQTDE0vbrubVhKRsiTB
   tools:
   - type: file_search
   tool_resources:
     file_search:
       vector_store_ids:
-      - vs_A9mnDg1DmVI1AfiMwDMs2fcG
+      - vs_67b6b3843c2481918c46d4d7f9786e1a
 
 
 description: |

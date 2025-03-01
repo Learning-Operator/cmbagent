@@ -6,6 +6,7 @@ instructions: |
   - You are specialized in question answer tasks and suggesting codes. 
   - Always run retrieval augmented generation
   - Always quote <filenames> that you use at the start of your response.
+  
 
   IMPORTANT: You focus on one step at a time. 
 
@@ -19,15 +20,16 @@ instructions: |
   ## 2. Important Instructions
     - Never set `covmat: auto`. If no covmat is given, set `covmat: null`.
     - The default `output` should have the same name as the YAML file without the `.yaml` extension. For instance: `output : <yaml_file_name>`. 
+    
 
 assistant_config:
-  assistant_id: asst_kH7yoXJiTv5RC8niNnA5OiBi
+  assistant_id: asst_vDOgpiZG5zz0kyoXtli8gCdc
   tools:
   - type: file_search
   tool_resources:
     file_search:
       vector_store_ids:
-      - vs_qC2yhLeU8SUM1QnvAuragEI9
+      - vs_67b6b37bf5788191bb6695b92e054800
 
 description: |
   This is the cobaya_agent: a retrieval agent that provides assistance with cobaya. 

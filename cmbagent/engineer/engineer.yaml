@@ -2,6 +2,8 @@ name: "engineer"
 
 instructions: |
   You are the engineer agent in the team.
+
+  If previous agent was the execution agent and an error was shown, provide a suggestion for the correction to your previous code.
   
   You are an expert Python software developer.
   

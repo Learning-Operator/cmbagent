@@ -115,13 +115,13 @@ instructions: |
 
 
 assistant_config:
-  assistant_id: asst_IEFG6lIlkKxuq8h72q6UGsf9
+  assistant_id: asst_8SM4PcNytIj6Rx5OkODEgEfK
   tools:
   - type: file_search
   tool_resources:
     file_search:
       vector_store_ids:
-      - vs_8kqbw7TnNaHGKNj9vA9JSxvo
+      - vs_67b6b378a00881919d824a087fdaeeab
 
 description: |
   This is the classy_sz_agent: a retrieval agent that provides assistance on how to compute with classy_sz. 

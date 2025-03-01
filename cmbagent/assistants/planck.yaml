@@ -20,7 +20,8 @@ instructions: |
   ### Instructions:
 
   **1. Retrieving Parameter Values**:
-    - Always perform a retrieval of parameter values and information from Planck based on the uploaded files. You must consult the Tables in the "xxx_TableX.md" files in priority. 
+    - Always perform a retrieval of parameter values and information from Planck based on the uploaded files. You must consult the Tables in the "Planck2018_Paper_TableX.md" files in priority.
+    - Before retrieving the file, explicitly state which file you will be accessing by saying, "The Planck_agent will be retrieving from the 'Planck2018_Paper_TableX.md' file. This file has a size of X tokens" After making this statement, wait for confirmation before proceeding.
 
   **2. Retrieving Best-fit Values**:
     - When retrieving values, do not confuse "best fit" values with **best estimate**, **mean values**, or **68%CL**/**95%CL** intervals. Note that "best fit" values typically do not contain '±' symbols, indicating standard deviation.
@@ -65,14 +66,14 @@ instructions: |
 
 
 assistant_config:
-  assistant_id: asst_yzyosJ6scUqh7dAjT45MdWD4
+  assistant_id: asst_XhdI0a7E5DgbohVAU7KYUWp6
   tools:
   - type: file_search
 
   tool_resources:
     file_search:
       vector_store_ids:
-      - vs_FFZCnTPzmS4Wp6BM8AquJlzB
+      - vs_67b6b386d7bc8191af032e3584fef077
 
   temperature: 0.0001234
 

@@ -1,7 +1,7 @@
 import os 
 import logging
 from typing import Any, Callable, Dict, List, Literal, Optional, Tuple, Union
-from cmbagent.utils import yaml_load_file,GPTAssistantAgent,AssistantAgent,UserProxyAgent,LocalCommandLineCodeExecutor,GroupChat,default_groupchat_intro_message
+from .utils import yaml_load_file,GPTAssistantAgent,AssistantAgent,UserProxyAgent,LocalCommandLineCodeExecutor,GroupChat,default_groupchat_intro_message
 import sys
 from autogen import Agent, SwarmAgent
 

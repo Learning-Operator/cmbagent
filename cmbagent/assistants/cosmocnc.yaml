@@ -56,14 +56,14 @@ instructions: |
 
 
 assistant_config:
-  assistant_id: asst_2IUpg7SQYC1OP5qGhksN3zj1
+  assistant_id: asst_QL2LnA6KITBwUS75KQ3BAl7v
   tools:
-    - type: file_search
+  - type: file_search
   tool_resources:
     file_search:
       vector_store_ids:
       #  - vs_2XbcIkQTgdxDrv3ACdAHRiQt
-        - vs_UJOlfAowoRnOYEVgBOU1zPzg
+      - vs_67b6b37ebf3c8191b8db5e3cc09c0233
 
 description: |
   This is the cosmocnc_agent: a retrieval agent that provides assistance with cosmocnc.
@@ -72,4 +72,4 @@ description: |
   It knows how to set-up cosmocnc.
 
 allowed_transitions:
-  - admin
+- admin

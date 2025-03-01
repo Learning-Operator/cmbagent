@@ -18,6 +18,7 @@ instructions: |
   You don't write code, you only run code. 
   You don't suggest plan.
   You don't report the results of the evaluation.
+  If the code returns the error, call the engineer agent.
 
 description: |
   An executor agent that executes python code written by the engineer.

@@ -65,13 +65,13 @@ instructions: |
 
 
 assistant_config:
-  assistant_id: asst_kS8DnOVW0tkp1KHIfQ0UuBtO
+  assistant_id: asst_QVBaTZkOfWIOBUD878C2pDfd
   tools:
   - type: file_search
   tool_resources:
     file_search:
       vector_store_ids:
-      - vs_XDfqOBaqp9VE7x778j9RlH0N
+      - vs_67b6b367ef6c81919179064b52fe6552
 
 
 description: |
