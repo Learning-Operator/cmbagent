@@ -18,6 +18,7 @@ from pprint import pprint
 from .base_agent import CmbAgentGroupChat, CmbAgentSwarmAgent
 from cmbagent.engineer.engineer import EngineerAgent
 from cmbagent.planner.planner import PlannerAgent
+from cmbagent.planner.Conversible_agent import Conversible_agent # My new Agent
 from cmbagent.executor.executor import ExecutorAgent
 from cmbagent.admin.admin import AdminAgent
 from cmbagent.summarizer.summarizer import SummarizerAgent
@@ -30,7 +31,7 @@ from pprint import pprint
 from autogen import  AfterWorkOption, AFTER_WORK, ON_CONDITION, SwarmResult, initiate_swarm_chat, SwarmAgent
 
 from cmbagent.cmbagent_swarm_agent import initiate_cmbagent_swarm_chat
-from cmbagent.structured_output import EngineerResponse, PlannerResponse, SummarizerResponse, RagSoftwareFormatterResponse
+from cmbagent.structured_output import EngineerResponse, PlannerResponse,ConversibleResponse, SummarizerResponse, RagSoftwareFormatterResponse
 
 from sys import exit
 
@@ -182,6 +183,7 @@ class CMBAgent:
                  set_allowed_transitions = None,
                  skip_executor = False,
                  skip_memory = True,
+                 skip_Conversible = False,
                  skip_rag_software_formatter = True,
                  work_dir = None,
                  agent_llm_configs = None,
@@ -250,6 +252,8 @@ class CMBAgent:
         self.kwargs = kwargs
 
         self.skip_executor = skip_executor
+        
+        self.skip_Conversible = skip_Conversible
 
         self.skip_rag_software_formatter = skip_rag_software_formatter
 
@@ -260,7 +264,7 @@ class CMBAgent:
 
         self.logger = logging.getLogger(__name__)
 
-        self.non_rag_agents = ['engineer', 'planner', 'executor', 'admin', 'summarizer', 'rag_software_formatter']
+        self.non_rag_agents = ['engineer', 'planner', 'executor', 'admin', 'summarizer', 'rag_software_formatter', 'Conversible']
 
         self.agent_list = agent_list
 
@@ -316,7 +320,6 @@ class CMBAgent:
 
         self.init_agents(agent_llm_configs=agent_llm_configs) # initialize agents
 
-        
         self.check_assistants(reset_assistant=reset_assistant) # check if assistants exist
 
         self.push_vector_stores(make_vector_stores, chunking_strategy, verbose = verbose) # push vector stores
@@ -1035,6 +1038,7 @@ class CMBAgent:
 
             'engineer': EngineerAgent,
             'planner': PlannerAgent,
+            'Conversible': Conversible_agent,
             'executor': ExecutorAgent,
             'summarizer': SummarizerAgent,
             'admin': AdminAgent,
@@ -1063,6 +1067,18 @@ class CMBAgent:
                         "response_format": PlannerResponse,
                         }
         ]
+        Conversible_llm_config = self.llm_config.copy()
+        Conversible_llm_config['config_list'] = [
+                        {
+                        "model": self.llm_config['config_list'][0]['model'],
+                        "api_key": self.llm_config['config_list'][0]['api_key'],
+                        "api_type": self.llm_config['config_list'][0]['api_type'],
+                        "response_format": ConversibleResponse,
+                        }
+        ]
+        
+        
+        
 
         summarizer_llm_config = self.llm_config.copy()
         summarizer_llm_config['config_list'] = [
@@ -1100,8 +1116,11 @@ class CMBAgent:
             engineer_llm_config['config_list'] = [agent_llm_configs['engineer']] if 'engineer' in agent_llm_configs else self.llm_config['config_list']
             
             planner_llm_config['config_list'] = [agent_llm_configs['planner']] if 'planner' in agent_llm_configs else self.llm_config['config_list']
+            
+            Conversible_llm_config['config_list'] = [agent_llm_configs['Conversible']] if 'Conversible' in agent_llm_configs else self.llm_config['config_list']
 
             summarizer_llm_config['config_list'] = [agent_llm_configs['summarizer']] if 'summarizer' in agent_llm_configs else self.llm_config['config_list']
+       
         
 
         self.engineer = EngineerAgent(llm_config=engineer_llm_config)
@@ -1114,6 +1133,8 @@ class CMBAgent:
         self.summarizer = SummarizerAgent(llm_config=summarizer_llm_config)
 
         self.rag_software_formatter = RagSoftwareFormatterAgent(llm_config=rag_software_formatter_llm_config)
+        
+        self.Conversible_agent = Conversible_agent(llm_config = Conversible_llm_config)
 
         # the administrator (to interact with us humans)
         self.admin = AdminAgent()
@@ -1123,6 +1144,7 @@ class CMBAgent:
 
         self.agents = [self.admin,
                        self.planner,
+                       self.Conversible_agent,
                        self.engineer]
 
         if not self.skip_memory:
@@ -1133,6 +1155,9 @@ class CMBAgent:
 
         if not self.skip_rag_software_formatter:
             self.agents.append(self.rag_software_formatter)
+            
+        if not self.skip_Conversible:
+            self.agents.append(self.Conversible_agent)
 
         if self.agent_list is None:
             self.agent_list = list(self.agent_classes.keys())
@@ -1140,7 +1165,8 @@ class CMBAgent:
         # Drop entries from self.agent_classes that are not in self.agent_list
         self.agent_classes = {k: v for k, v in self.agent_classes.items() if k in self.agent_list or k in ['summarizer', 
                                                                                                             'engineer', 
-                                                                                                            'planner', 
+                                                                                                            'planner',
+                                                                                                            'Conversible', 
                                                                                                             'executor', 
                                                                                                             'rag_software_formatter',
                                                                                                             'admin']}
@@ -1150,6 +1176,7 @@ class CMBAgent:
 
             if agent_name in self.agent_classes and agent_name not in ['engineer',
                                                                        'planner',
+                                                                       'Conversible',
                                                                        'executor',
                                                                        'summarizer',
                                                                        'rag_software_formatter',
@@ -1175,7 +1202,7 @@ class CMBAgent:
 
         agent_keys = self.agent_classes.keys()
 
-        self.agent_names =  [f"{key}_agent" if key not in ['engineer', 'planner', 'executor', 'admin', 'summarizer', 'rag_software_formatter'] else key for key in agent_keys]
+        self.agent_names =  [f"{key}_agent" if key not in ['engineer', 'planner','Conversible', 'executor', 'admin', 'summarizer', 'rag_software_formatter'] else key for key in agent_keys]
 
         if self.skip_executor:
             self.agent_names.remove('executor')
@@ -1185,6 +1212,9 @@ class CMBAgent:
 
         if self.skip_memory:
             self.agent_names.remove('summarizer')
+
+        if self.skip_Conversible:
+            self.agent_names.remove('Conversible')
 
         if self.verbose:
 

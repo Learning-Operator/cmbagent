@@ -74,6 +74,32 @@ class PlannerResponse(BaseModel):
         """
         return message
 
+
+class ConversibleResponse(BaseModel):
+    main_task: str
+    sub_tasks: list[Subtasks]
+    Plan_suggestion: str = Field(..., description="A suggestion on how the plan could be modified to better suit the goal")
+
+    def format(self) -> str:
+        plan_output = "\n".join(
+            f"\n- Step {i + 1}:\n\t * sub-task: {step.sub_task}\n\t * agent in charge: {step.sub_task_agent}\n\t" for i, step in enumerate(self.sub_tasks)
+        )
+        message = f"""
+**PLAN**
+
+- Main task: {self.main_task}
+
+{plan_output}
+
+**Next Step Suggestion:**
+
+{self.Plan_suggestion}
+
+        """
+        return message
+
+
+
 class SubtaskSummary(BaseModel):
     sub_task: str
     result: str
