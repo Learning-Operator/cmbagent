@@ -35,6 +35,9 @@ from cmbagent.structured_output import EngineerResponse, PlannerResponse,Convers
 
 from sys import exit
 
+# Add in a method to make running this easier for me, i.e limit TPM Rate dependant on a specified tier.
+
+
 
 def import_rag_agents():        
     imported_rag_agents = {}
@@ -187,6 +190,7 @@ class CMBAgent:
                  skip_rag_software_formatter = True,
                  work_dir = None,
                  agent_llm_configs = None,
+                 
                  agent_type = None,# 'swarm',
                 #  make_new_rag_agents = False, ## can be a list of names for new rag agents to be created
                  **kwargs):
@@ -237,17 +241,20 @@ class CMBAgent:
         Attributes:
             kwargs (dict): Additional keyword arguments.
             work_dir (str): Working directory for output.
+            
+            data_dir (str): Setting data. - -  This may be redundant, will remove later --
+
             path_to_assistants (str): Path to the assistants directory.
-            llm_api_key (str): OpenAI API key.
+            llm_api_key (str): OpenAI API key.            
             engineer (engineer_agent): Agent for engineering tasks.
             planner (planner_agent): Agent for planning tasks.
+            Conversible: An agent of which critiques suggestions and the plan.
             executor (executor_agent): Agent for executing tasks.
+            
 
         Note:
             This class initializes various agents and configurations for cosmological data analysis.
         """
-
-
 
         self.kwargs = kwargs
 
@@ -1332,7 +1339,7 @@ class CMBAgent:
         
         for agent in self.agents:
 
-            if agent.name in ['planner', 'engineer', 'executor', 'admin']:
+            if agent.name in ['planner', 'engineer', 'executor', 'admin', 'Conversible']:
                 continue
 
 
