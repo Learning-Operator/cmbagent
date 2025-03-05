@@ -78,10 +78,11 @@ class PlannerResponse(BaseModel):
 class ConversibleResponse(BaseModel):
     main_task: str
     sub_tasks: list[Subtasks]
-    Plan_suggestion: str = Field(..., description="A suggestion on how the plan could be modified to better suit the goal")
+    Plan_critique: str = Field(..., description="A suggestion on how the plan could be modified to better suit the goal")
 
     def format(self) -> str:
         plan_output = "\n".join(
+            
             f"\n- Step {i + 1}:\n\t * sub-task: {step.sub_task}\n\t * agent in charge: {step.sub_task_agent}\n\t" for i, step in enumerate(self.sub_tasks)
         )
         message = f"""
@@ -91,9 +92,9 @@ class ConversibleResponse(BaseModel):
 
 {plan_output}
 
-**Next Step Suggestion:**
+**Suggestion:**
 
-{self.Plan_suggestion}
+{self.Plan_critique}
 
         """
         return message

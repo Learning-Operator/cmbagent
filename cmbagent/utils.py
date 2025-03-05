@@ -74,6 +74,7 @@ engineer should be selected to check code.
 engineer should be selected to provide code to save summary of session. 
 executor should be selected to execute. 
 planner should be the first agent to speak. 
+Conversible should be called when prompted to by admin.
 """
 ### note that we hardcoded the requirement that planner speaks first. 
 
@@ -90,6 +91,7 @@ engineer should be selected to check for conflicts.
 engineer should be selected to check code. 
 executor should be selected to execute. 
 planner should be the first agent to speak.
+Conversible should be called when prompted to by admin.
 """
 
 

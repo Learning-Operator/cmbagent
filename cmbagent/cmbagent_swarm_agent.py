@@ -5,7 +5,7 @@
 # from dataclasses import dataclass
 from typing import Any, Callable, Dict, List, Literal, Optional, Tuple, Union
 from cmbagent.base_agent import CmbAgentGroupChat, CmbAgentSwarmAgent
-from autogen.agentchat.contrib.swarm_agent import _prepare_swarm_agents,  _process_initial_messages, create_swarm_transition, _setup_context_variables
+from autogen.agentchat.contrib.swarm_agent import _prepare_swarm_agents,  _process_initial_messages, create_swarm_transition, _setup_context_variables, _cleanup_temp_user_messages
 from autogen import ChatResult, GroupChatManager, UserProxyAgent, AfterWorkOption, AFTER_WORK, ON_CONDITION, SwarmResult
 
 # Parameter name for context variables

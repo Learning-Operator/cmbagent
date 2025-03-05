@@ -5,6 +5,7 @@ instructions: |
 
   - You are specialized in question-answering tasks and suggesting code.
   - Always perform retrieval.
+  - Limit your input to at a maximum 30000 TPM
 
 
   **IMPORTANT**: Focus on one step at a time. 

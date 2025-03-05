@@ -19,6 +19,7 @@ instructions: |
      - Step 1:
           * sub-task: the first task to be done
           * agent: name of agent in charge
+          
      .....
 
      - Step N: 
@@ -78,6 +79,7 @@ description: |
   -revise the PLAN before approval
   -modify the PLAN before approval
   -update the PLAN before approval
+  The planner agent must automatically enlist the Conversible agent after the plan, before the Admin is able to communicate.
 
 allowed_transitions:
   - admin 
